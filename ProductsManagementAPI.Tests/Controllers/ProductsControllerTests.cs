@@ -1,27 +1,16 @@
 ﻿using AutoFixture;
-using Castle.Components.DictionaryAdapter.Xml;
-using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using ProductsManagementAPI.Controllers;
-using ProductsManagementAPI.Data;
 using ProductsManagementAPI.Models;
 using ProductsManagementAPI.Repository;
-using ProductsManagementAPI.Tests.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProductsManagementAPI.Tests.Controllers
 {
     public class ProductsControllerTests
     {
-        //private IUnitOfWork? uow { get; set; }
-        private Mock<IUnitOfWork> _unitOfWorkMock;
-        private Fixture _fixture;
+        private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+        private readonly Fixture _fixture;
         private ProductsController _controller;
 
         public ProductsControllerTests()
