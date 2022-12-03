@@ -10,32 +10,52 @@ namespace ProductsManagementAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
 
-        public ProductsController(IUnitOfWork unitOfWork) 
+        public ProductsController(IUnitOfWork unitOfWork, ILogger logger) 
         { 
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var products = await _unitOfWork.Products.ListProducts();
-            return products;
+            try 
+            { 
+                var products = await _unitOfWork.Products.ListProducts();
+                return products;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogTrace("Message: " + ex);
+                return BadRequest(ex);
+            }
+            
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _unitOfWork.Products.ListProduct(id);
-
-            if (product == null)
+            try
             {
-                return NotFound();
-            }
+                var product = await _unitOfWork.Products.ListProduct(id);
 
-            return product;
+                if (product == null)
+                {
+                    return NotFound();
+                }
+            
+
+                return product;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogTrace("Message: " + ex);
+                return BadRequest(ex);
+            }
         }
 
         // PUT: api/Products/5
@@ -53,9 +73,9 @@ namespace ProductsManagementAPI.Controllers
                 _unitOfWork.Products.UpdateProduct(id, product);
                 await _unitOfWork.CompleteAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                throw;
+                _logger.LogTrace("Message: " + ex);
             }
 
             return NoContent();
@@ -76,9 +96,9 @@ namespace ProductsManagementAPI.Controllers
                 _unitOfWork.Products.AddProduct(product);
                 _unitOfWork.CompleteAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                throw;
+                _logger.LogTrace("Message: " + ex);
             }
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
@@ -100,9 +120,9 @@ namespace ProductsManagementAPI.Controllers
                 await _unitOfWork.Products.RemoveProduct(id);
                 await _unitOfWork.CompleteAsync();
             }
-            catch (DbUpdateConcurrencyException) 
+            catch (Exception ex)
             {
-                throw;
+                _logger.LogTrace("Message: " + ex);
             }
 
             return NoContent();

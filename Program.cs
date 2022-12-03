@@ -18,6 +18,7 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 });
 // Inject Dependency of UnitOFWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddApplicationInsightsTelemetry();
 
 // Enable CORS
 builder.Services.AddCors(options =>

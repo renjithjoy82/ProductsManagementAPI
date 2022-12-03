@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ProductsManagementAPI.Controllers;
 using ProductsManagementAPI.Models;
@@ -12,11 +13,17 @@ namespace ProductsManagementAPI.Tests.Controllers
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Fixture _fixture;
         private ProductsController _controller;
+        //private readonly ILogger _logger;
+        private ILogger<LoggerTest> _loggerTest;
 
         public ProductsControllerTests()
         {
             _fixture = new Fixture();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
+            using var loggerFactory = LoggerFactory.Create(loggingBuilder => loggingBuilder
+                .SetMinimumLevel(LogLevel.Trace)
+                .AddConsole());
+            _loggerTest = loggerFactory.CreateLogger<LoggerTest>();
         }
 
         [Fact]
@@ -25,7 +32,7 @@ namespace ProductsManagementAPI.Tests.Controllers
             // Arrange
             var productList = _fixture.CreateMany<Product>(5).ToList();
             _unitOfWorkMock.Setup(rep => rep.Products.ListProducts()).ReturnsAsync(productList);
-            _controller = new ProductsController(_unitOfWorkMock.Object);
+            _controller = new ProductsController(_unitOfWorkMock.Object, _loggerTest);
 
             // Act
             var result = await _controller.GetProducts();
@@ -41,7 +48,7 @@ namespace ProductsManagementAPI.Tests.Controllers
             // Arrange
             var product = _fixture.Create<Product>();
             _unitOfWorkMock.Setup(rep => rep.Products.ListProduct(product.Id)).ReturnsAsync(product);
-            _controller = new ProductsController(_unitOfWorkMock.Object);
+            _controller = new ProductsController(_unitOfWorkMock.Object, _loggerTest);
 
             // Act
             var result = await _controller.GetProduct(product.Id);
@@ -56,7 +63,7 @@ namespace ProductsManagementAPI.Tests.Controllers
             // Arrange
             //var product = _fixture.Create<Product>();
             _unitOfWorkMock.Setup(rep => rep.Products.ListProduct(It.IsAny<int>())).ReturnsAsync(It.IsAny<Product>());
-            _controller = new ProductsController(_unitOfWorkMock.Object);
+            _controller = new ProductsController(_unitOfWorkMock.Object, _loggerTest);
 
             // Act
             var result = await _controller.GetProduct(It.IsAny<int>());
@@ -72,7 +79,7 @@ namespace ProductsManagementAPI.Tests.Controllers
             // Arrange
             var product = _fixture.Create<Product>();
             _unitOfWorkMock.Setup(rep => rep.Products.AddProduct(It.IsAny<Product>())).ReturnsAsync(product);
-            _controller = new ProductsController(_unitOfWorkMock.Object);
+            _controller = new ProductsController(_unitOfWorkMock.Object, _loggerTest);
 
             // Act
             var result = _controller.PostProduct(product);
@@ -87,7 +94,7 @@ namespace ProductsManagementAPI.Tests.Controllers
             // Arrange
             var product = _fixture.Create<Product>();
             _unitOfWorkMock.Setup(rep => rep.Products.UpdateProduct(product.Id, product)).Returns(true);
-            _controller = new ProductsController(_unitOfWorkMock.Object);
+            _controller = new ProductsController(_unitOfWorkMock.Object, _loggerTest);
 
             // Act
             var result = _controller.PutProduct(product.Id, product);
@@ -101,7 +108,7 @@ namespace ProductsManagementAPI.Tests.Controllers
         {
             // Arrange            
             _unitOfWorkMock.Setup(rep => rep.Products.UpdateProduct(It.IsAny<int>(), It.IsAny<Product>())).Returns(true);
-            _controller = new ProductsController(_unitOfWorkMock.Object);
+            _controller = new ProductsController(_unitOfWorkMock.Object, _loggerTest);
 
             // Act
             var result = _controller.PutProduct(It.IsAny<int>(), It.IsAny<Product>());
@@ -116,7 +123,7 @@ namespace ProductsManagementAPI.Tests.Controllers
         {
             // Arrange
             _unitOfWorkMock.Setup(rep => rep.Products.RemoveProduct(It.IsAny<int>())).ReturnsAsync(true);
-            _controller = new ProductsController(_unitOfWorkMock.Object);
+            _controller = new ProductsController(_unitOfWorkMock.Object, _loggerTest);
 
             // Act
             var result = await _controller.DeleteProduct(It.IsAny<int>());
