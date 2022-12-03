@@ -13,7 +13,6 @@ namespace ProductsManagementAPI.Tests.Controllers
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Fixture _fixture;
         private ProductsController _controller;
-        //private readonly ILogger _logger;
         private ILogger<LoggerTest> _loggerTest;
 
         public ProductsControllerTests()
