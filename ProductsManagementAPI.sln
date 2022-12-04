@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductsManagementAPI", "ProductsManagementAPI.csproj", "{3D633259-A44C-4F16-95FD-C918281BF117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsManagementAPI", "ProductsManagementAPI.csproj", "{3D633259-A44C-4F16-95FD-C918281BF117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductsManagementAPI.Tests", "ProductsManagementAPI.Tests\ProductsManagementAPI.Tests.csproj", "{E1AD0A85-92D0-49ED-AFE9-0AF6033AEF75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsManagementAPI.Tests", "ProductsManagementAPI.Tests\ProductsManagementAPI.Tests.csproj", "{E1AD0A85-92D0-49ED-AFE9-0AF6033AEF75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{835E52EB-1257-4FE0-903A-F73ADA04DF03}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
