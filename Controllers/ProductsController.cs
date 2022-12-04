@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProductsManagementAPI.Models;
 using ProductsManagementAPI.Repository;
 
@@ -10,9 +9,9 @@ namespace ProductsManagementAPI.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger _logger;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(IUnitOfWork unitOfWork, ILogger logger) 
+        public ProductsController(IUnitOfWork unitOfWork, ILogger<ProductsController> logger) 
         { 
             _unitOfWork = unitOfWork;
             _logger = logger;

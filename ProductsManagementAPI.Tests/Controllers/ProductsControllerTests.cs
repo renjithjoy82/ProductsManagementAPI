@@ -13,16 +13,14 @@ namespace ProductsManagementAPI.Tests.Controllers
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Fixture _fixture;
         private ProductsController _controller;
-        private ILogger<LoggerTest> _loggerTest;
+        private ILogger<ProductsController> _loggerTest;
 
         public ProductsControllerTests()
         {
             _fixture = new Fixture();
-            _unitOfWorkMock = new Mock<IUnitOfWork>();
-            using var loggerFactory = LoggerFactory.Create(loggingBuilder => loggingBuilder
-                .SetMinimumLevel(LogLevel.Trace)
-                .AddConsole());
-            _loggerTest = loggerFactory.CreateLogger<LoggerTest>();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();            
+            var _logger = new Mock<ILogger<ProductsController>>();
+            _loggerTest = _logger.Object;
         }
 
         [Fact]
