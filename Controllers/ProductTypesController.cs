@@ -10,6 +10,8 @@ using ProductsManagementAPI.Models;
 
 namespace ProductsManagementAPI.Controllers
 {
+    // ProductTypesController class methods are executed for data management, using Swagger API as it is not required to be handled in the UI.  
+    
     [Route("api/[controller]")]
     [ApiController]
     public class ProductTypesController : ControllerBase
